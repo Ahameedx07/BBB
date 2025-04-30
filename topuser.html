@@ -1,0 +1,146 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Top Users - Ahameed Buzz</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body
+
+
+<header class="fixed top-0 w-full bg-white border-b shadow-sm z-50 px-4 py-3 flex justify-between items-center">
+  <h1 class="text-lg font-semibold text-blue-700">Ahameed Buzz</h1>
+  <div class="relative">
+    <button onclick="toggleMenu()" class="text-sm text-gray-700 focus:outline-none">
+      Logged in as: <span id="userName">Loading...</span> ▼
+    </button>
+    <div id="dropdownMenu" class="hidden absolute right-0 mt-2 w-48 bg-white border rounded shadow-lg z-50">
+      <a href="profile.html" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Profile</a>
+      <a href="home.html" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Dashboard</a>
+      <a href="#" onclick="logout()" class="block px-4 py-2 text-red-600 hover:bg-gray-100">Logout</a>
+    </div>
+  </div>
+</header>
+<div class="h-16"></div>
+
+  </div>
+</div>
+<div class="h-16"></div>
+
+
+<div class="fixed top-0 w-full bg-white border-b shadow-sm z-50 px-4 py-3 flex justify-between items-center">
+  <h1 class="text-lg font-semibold text-blue-700">Ahameed Buzz</h1>
+  <div class="text-sm text-gray-700">Logged in as: <span id="userName">Loading...</span></div>
+</div>
+<div class="h-16"></div>
+ class="bg-gray-100 p-6">
+  <div class="max-w-2xl mx-auto bg-white rounded shadow p-6 mt-10">
+    <h1 class="text-2xl font-bold mb-4 text-blue-700">Top Users</h1>
+    <ul id="topList" class="space-y-3"></ul>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js";
+    import {
+      getFirestore, collection, query, orderBy, limit, onSnapshot
+    } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyB4MIC9dma_UEcCCSaseCr0PoDdTeW_4UM",
+      authDomain: "ahameed-playz.firebaseapp.com",
+      projectId: "ahameed-playz",
+      storageBucket: "ahameed-playz.firebasestorage.app",
+      messagingSenderId: "110673165622",
+      appId: "1:110673165622:web:1f5bdc642d8c22f95cc797",
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    const list = document.getElementById("topList");
+
+    onAuthStateChanged(auth, user => {
+      if (!user) return window.location.href = "login.html";
+
+      const q = query(collection(db, "users"), orderBy("balance", "desc"), limit(10));
+      onSnapshot(q, snapshot => {
+        list.innerHTML = "";
+        snapshot.forEach(docSnap => {
+          const data = docSnap.data();
+          list.innerHTML += `
+            <li class="bg-gray-100 p-3 rounded border">
+              <p><strong>${data.email || "Anonymous"}</strong></p>
+              <p class="text-green-600">Balance: $${(data.balance || 0).toFixed(2)}</p>
+            </li>
+          `;
+        });
+      });
+    });
+  </script>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
+  import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyB4MIC9dma_UEcCCSaseCr0PoDdTeW_4UM",
+    authDomain: "ahameed-playz.firebaseapp.com",
+    projectId: "ahameed-playz",
+    storageBucket: "ahameed-playz.firebasestorage.app",
+    messagingSenderId: "110673165622",
+    appId: "1:110673165622:web:1f5bdc642d8c22f95cc797",
+    measurementId: "G-G9T2VTCW23"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      const display = user.displayName || user.email;
+      document.getElementById("userName").textContent = display;
+    }
+  });
+</script>
+
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
+  import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyB4MIC9dma_UEcCCSaseCr0PoDdTeW_4UM",
+    authDomain: "ahameed-playz.firebaseapp.com",
+    projectId: "ahameed-playz",
+    storageBucket: "ahameed-playz.firebasestorage.app",
+    messagingSenderId: "110673165622",
+    appId: "1:110673165622:web:1f5bdc642d8c22f95cc797",
+    measurementId: "G-G9T2VTCW23"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+
+  onAuthStateChanged(auth, (user) => {
+    if (!user) return window.location.href = "login.html";
+    document.getElementById("userName").textContent = user.email;
+  });
+
+  window.logout = function () {
+    signOut(auth).then(() => {
+      window.location.href = "login.html";
+    });
+  }
+
+  window.toggleMenu = function () {
+    const menu = document.getElementById("dropdownMenu");
+    menu.classList.toggle("hidden");
+  };
+</script>
+
+</body>
+</html>

@@ -1,0 +1,119 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>User Profile - Ahameed Buzz</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body
+
+
+<header class="fixed top-0 w-full bg-white border-b shadow-sm z-50 px-4 py-3 flex justify-between items-center">
+  <h1 class="text-lg font-semibold text-blue-700">Ahameed Buzz</h1>
+  <div class="relative">
+    <button onclick="toggleMenu()" class="text-sm text-gray-700 focus:outline-none">
+      Logged in as: <span id="userName">Loading...</span> ▼
+    </button>
+    <div id="dropdownMenu" class="hidden absolute right-0 mt-2 w-48 bg-white border rounded shadow-lg z-50">
+      <a href="profile.html" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Profile</a>
+      <a href="home.html" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Dashboard</a>
+      <a href="#" onclick="logout()" class="block px-4 py-2 text-red-600 hover:bg-gray-100">Logout</a>
+    </div>
+  </div>
+</header>
+<div class="h-16"></div>
+
+  </div>
+</div>
+<div class="h-16"></div>
+ class="bg-gray-100 p-6 min-h-screen">
+  <div class="max-w-lg mx-auto bg-white shadow rounded p-6 mt-10">
+    <h1 class="text-2xl font-bold mb-4 text-blue-700">User Profile</h1>
+    <p><strong>Email:</strong> <span id="userEmail">Loading...</span></p>
+    <p class="mt-2"><strong>Username:</strong> <span id="userName">Loading...</span></p>
+    <p class="mt-2"><strong>UID:</strong> <span id="userUID">Loading...</span></p>
+    <p class="mt-2"><strong>Balance:</strong> <span id="userBalance" class="text-green-600 font-semibold">$0.00</span></p>
+    <a href="home.html" class="inline-block mt-6 bg-blue-600 text-white px-4 py-2 rounded">Back to Home</a>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js";
+    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyB4MIC9dma_UEcCCSaseCr0PoDdTeW_4UM",
+      authDomain: "ahameed-playz.firebaseapp.com",
+      projectId: "ahameed-playz",
+      storageBucket: "ahameed-playz.firebasestorage.app",
+      messagingSenderId: "110673165622",
+      appId: "1:110673165622:web:1f5bdc642d8c22f95cc797",
+      measurementId: "G-G9T2VTCW23"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    const emailEl = document.getElementById("userEmail");
+    const uidEl = document.getElementById("userUID");
+    const nameEl = document.getElementById("userName");
+    const balanceEl = document.getElementById("userBalance");
+
+    onAuthStateChanged(auth, async (user) => {
+      if (!user) return (window.location.href = "login.html");
+
+      emailEl.textContent = user.email;
+      uidEl.textContent = user.uid;
+
+      const userRef = doc(db, "users", user.uid);
+      const snap = await getDoc(userRef);
+      if (snap.exists()) {
+        const data = snap.data();
+        nameEl.textContent = data.username || "user_" + user.uid.slice(-6);
+        balanceEl.textContent = "$" + (data.balance || 0).toFixed(2);
+      } else {
+        nameEl.textContent = "user_" + user.uid.slice(-6);
+        balanceEl.textContent = "$0.00";
+      }
+    });
+  </script>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
+  import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyB4MIC9dma_UEcCCSaseCr0PoDdTeW_4UM",
+    authDomain: "ahameed-playz.firebaseapp.com",
+    projectId: "ahameed-playz",
+    storageBucket: "ahameed-playz.firebasestorage.app",
+    messagingSenderId: "110673165622",
+    appId: "1:110673165622:web:1f5bdc642d8c22f95cc797",
+    measurementId: "G-G9T2VTCW23"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+
+  onAuthStateChanged(auth, (user) => {
+    if (!user) return window.location.href = "login.html";
+    document.getElementById("userName").textContent = user.email;
+  });
+
+  window.logout = function () {
+    signOut(auth).then(() => {
+      window.location.href = "login.html";
+    });
+  }
+
+  window.toggleMenu = function () {
+    const menu = document.getElementById("dropdownMenu");
+    menu.classList.toggle("hidden");
+  };
+</script>
+
+</body>
+</html>

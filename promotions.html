@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Promotions - Bet Buzz BD</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @keyframes fade-in {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    .animate-fade-in { animation: fade-in 0.3s ease-out; }
+  </style>
+</head>
+<body class="bg-gray-900 text-white font-sans">
+  <header class="bg-black p-4 flex justify-between items-center sticky top-0 z-50">
+    <div class="text-xl font-bold text-cyan-400">Bet Buzz BD</div>
+    <nav>
+      <ul class="flex gap-4 text-sm">
+        <li><a href="index.html" class="hover:text-cyan-400">Home</a></li>
+        <li><a href="sports.html" class="hover:text-cyan-400">Sports</a></li>
+        <li><a href="casino.html" class="hover:text-cyan-400">Casino</a></li>
+        <li><a href="game.html" class="hover:text-cyan-400">Game</a></li>
+        <li><a href="promotions.html" class="hover:text-cyan-400">Promotions</a></li>
+        <li><button id="openLogin" class="hover:text-cyan-400">Login</button></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="p-8 text-center">
+    <h1 class="text-3xl font-bold text-cyan-300">Promotions Page</h1>
+    <p class="text-gray-400 mt-2">Content for the promotions page goes here.</p>
+    <button id="openRegister" class="mt-6 bg-cyan-500 text-black font-bold py-2 px-4 rounded hover:bg-cyan-600 transition">Join Now</button>
+  </main>
+
+  <footer class="bg-black text-center text-gray-500 text-sm py-4">
+    &copy; 2025 Bet Buzz BD (BBB / 3B). All rights reserved.
+  </footer>
+
+  <!-- Login Modal -->
+  <div id="loginModal" class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center hidden z-50">
+    <div class="bg-white text-black p-8 rounded-lg shadow-lg w-full max-w-md animate-fade-in">
+      <h2 class="text-2xl font-bold text-center text-blue-700 mb-6">Login to Bet Buzz BD</h2>
+      <div class="space-y-4">
+        <input type="email" placeholder="Email" class="w-full px-4 py-2 border rounded"/>
+        <input type="password" placeholder="Password" class="w-full px-4 py-2 border rounded"/>
+        <button class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition">Login</button>
+      </div>
+      <div class="text-center mt-4 text-sm text-gray-600">
+        <button id="openReset" class="text-blue-600 hover:underline">Forgot password?</button><br/>
+        Don’t have an account? <button id="openRegister2" class="text-blue-600 hover:underline">Register</button>
+      </div>
+      <button id="closeLogin" class="mt-6 w-full text-sm text-gray-500 hover:text-gray-700">Close</button>
+    </div>
+  </div>
+
+  <!-- Register Modal -->
+  <div id="registerModal" class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center hidden z-50">
+    <div class="bg-white text-black p-8 rounded-lg shadow-lg w-full max-w-md animate-fade-in">
+      <h2 class="text-2xl font-bold text-center text-green-700 mb-6">Register to Bet Buzz BD</h2>
+      <div class="space-y-4">
+        <input type="text" placeholder="Full Name" class="w-full px-4 py-2 border rounded"/>
+        <input type="email" placeholder="Email" class="w-full px-4 py-2 border rounded"/>
+        <input type="password" placeholder="Password" class="w-full px-4 py-2 border rounded"/>
+        <button class="w-full bg-green-600 text-white py-2 rounded hover:bg-green-700 transition">Register</button>
+      </div>
+      <button id="closeRegister" class="mt-6 w-full text-sm text-gray-500 hover:text-gray-700">Close</button>
+    </div>
+  </div>
+
+  <!-- Reset Modal -->
+  <div id="resetModal" class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center hidden z-50">
+    <div class="bg-white text-black p-8 rounded-lg shadow-lg w-full max-w-md animate-fade-in">
+      <h2 class="text-2xl font-bold text-center text-purple-700 mb-6">Reset Password</h2>
+      <div class="space-y-4">
+        <input type="email" placeholder="Enter your email" class="w-full px-4 py-2 border rounded"/>
+        <button class="w-full bg-purple-600 text-white py-2 rounded hover:bg-purple-700 transition">Send Reset Link</button>
+      </div>
+      <button id="closeReset" class="mt-6 w-full text-sm text-gray-500 hover:text-gray-700">Close</button>
+    </div>
+  </div>
+
+  <script>
+    const loginModal = document.getElementById("loginModal");
+    const registerModal = document.getElementById("registerModal");
+    const resetModal = document.getElementById("resetModal");
+
+    document.getElementById("openLogin").onclick = () => loginModal.classList.remove("hidden");
+    document.getElementById("closeLogin").onclick = () => loginModal.classList.add("hidden");
+
+    document.getElementById("openRegister").onclick = () => registerModal.classList.remove("hidden");
+    document.getElementById("openRegister2").onclick = () => { loginModal.classList.add("hidden"); registerModal.classList.remove("hidden"); };
+    document.getElementById("closeRegister").onclick = () => registerModal.classList.add("hidden");
+
+    document.getElementById("openReset").onclick = () => { loginModal.classList.add("hidden"); resetModal.classList.remove("hidden"); };
+    document.getElementById("closeReset").onclick = () => resetModal.classList.add("hidden");
+  </script>
+
+  <main class="p-6">
+    <h1 class="text-3xl font-bold mb-6 text-cyan-400">Current Promotions</h1>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+      <div class="bg-gray-800 p-4 rounded-2xl shadow-lg hover:shadow-pink-500/50 transition-all duration-300 animate-fade-in">
+        <img src="https://via.placeholder.com/300x150" alt="Promotion 1" class="rounded-xl mb-4">
+        <h2 class="text-xl font-semibold mb-2">Welcome Bonus</h2>
+        <p class="text-sm text-gray-300 mb-4">Get up to 100% bonus on your first deposit.</p>
+        <button class="bg-pink-500 hover:bg-pink-600 text-white px-4 py-2 rounded-xl">Claim Now</button>
+      </div>
+      <div class="bg-gray-800 p-4 rounded-2xl shadow-lg hover:shadow-pink-500/50 transition-all duration-300 animate-fade-in">
+        <img src="https://via.placeholder.com/300x150" alt="Promotion 2" class="rounded-xl mb-4">
+        <h2 class="text-xl font-semibold mb-2">Weekly Cashback</h2>
+        <p class="text-sm text-gray-300 mb-4">Get 10% cashback on your losses every week.</p>
+        <button class="bg-pink-500 hover:bg-pink-600 text-white px-4 py-2 rounded-xl">Join Now</button>
+      </div>
+    </div>
+  </main>
+</body>
+
+</html>
